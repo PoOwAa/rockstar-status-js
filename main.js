@@ -2,14 +2,23 @@ const axios = require('axios');
 
 console.log('Fetching RockStar games server status');
 
+/**
+ * Get status from the official JSON
+ *
+ * @returns
+ */
 async function getStatus() {
   return axios
-    .get(
-      'https://support.rockstargames.com/services/status.json?tz=Europe%2FWarsaw&fbclid=IwAR1aVIM09ZtkDJSwMM-MbDfDQ_aSf9KUOo5dHCK1SqSkR6LatGqRRtyQVCQ',
-    )
+    .get('https://support.rockstargames.com/services/status.json', {
+      params: {
+        tz: 'Europe/Warsaw',
+      },
+    })
     .then(axiosResult => {
       if (axiosResult.status === 200) {
         return axiosResult.data.statuses;
+      } else {
+        // TODO: handle bad request
       }
     })
     .catch(e => {
